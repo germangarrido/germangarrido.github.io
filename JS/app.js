@@ -574,7 +574,7 @@ try{
             $div.id = "c"+objTareaNueva.id
             $div.draggable = true
             $div.innerHTML =
-                `<div id="priodidad"><i class="fa-regular fa-clipboard"></i> <strong>${objTareaNueva.prioridad}</strong></div> 
+                `<div id="priodidad"><i class="fa-solid fa-star"></i> <strong>${objTareaNueva.prioridad}</strong></div> 
                 <div id="user"><i class="fa-solid fa-user"></i> ${objTareaNueva.user}</div>
                 <div id="tarea"><i class="fa-solid fa-thumbtack"></i> ${objTareaNueva.descripcion}</div>
                 <button type="button" class="delete" onclick= "editarTarea(event)">Editar</button>
@@ -612,8 +612,6 @@ function limpiarObjTarea() {
     // color: '',
     // tipoUser:''   
 }
-
-
 
 }catch (error){
 console.log('no se cargaron eventos del formulario de tareas nuevas' + error)
@@ -710,13 +708,28 @@ console.log('no se cargaron eventos del formulario de tareas nuevas' + error)
 ///////// USUARIOS ////////////////////
 
     //chequea si hay usuarios Registrados guardados en el localstorage 
-    var users = JSON.parse(localStorage.getItem("users"))
-    if(users === null){
+    
+    var usersFetch = JSON.parse(localStorage.getItem("PruebaFetch"))
+    if(localStorage.getItem("users")){ 
+        var users = JSON.parse(localStorage.getItem("users"))
+        console.log("HAY Usuarios Registrados guardados en el LocalStorage")
+    }else{
         users = []
         console.log("NO hay Usuarios Registrados guardados en el LocalStorage")
-    }else{
-        console.log("HAY Usuarios Registrados guardados en el LocalStorage")
     }
+
+    
+    if(localStorage.getItem("PruebaFetch")){ 
+        var usersFetch = JSON.parse(localStorage.getItem("PruebaFetch"))
+        console.log("HAY PRUEBA de fetch en el LocalStorage")
+    }else{
+        usersFetch = []
+       
+        console.log("HAY PRUEBA de fetch en el LocalStorage")
+    }
+
+
+
 
     let editando = false;
     var $formUsers = document.getElementById("frmUsers")
@@ -728,6 +741,7 @@ console.log('no se cargaron eventos del formulario de tareas nuevas' + error)
 
     var usuariosGuardados = JSON.parse(localStorage.getItem('users'))
 
+    
     try{
         mostrarUsers()
         const dataUserNuevo = {
@@ -794,7 +808,76 @@ console.log('no se cargaron eventos del formulario de tareas nuevas' + error)
         dataUserNuevo.color = ''
         dataUserNuevo.tipoUser = ''
     }
-       
+    
+    pruebadeArreglo = []
+    dataUserFetch = {
+        id: '',
+        apellido: '',
+        nombre: '',
+        mail: '',
+        telefono: '',
+        username: '',
+        password: '',
+        color: '',
+        tipoUser: ''
+
+    }
+
+        fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response => response.json())
+        .then(json => 
+        
+        //    console.log(json))
+    
+            //    console.log(json))
+    
+        json.forEach( usuario => {
+            const{id, name,username, email } = usuario  
+            
+            dataUserFetch.id = id
+            dataUserFetch.apellido = username 
+            dataUserFetch.nombre = name
+            dataUserFetch.mail = email
+            dataUserFetch.telefono = "99"
+            dataUserFetch.username = email
+            dataUserFetch.password = '1234'
+            dataUserFetch.color = '#77aaff'
+            dataUserFetch.tipoUser = 'MIEMBRX'
+
+            pruebadeArreglo.push({...dataUserFetch})
+            var obtParaLocalStorage = JSON.stringify(pruebadeArreglo)
+            var nombreVarLocalStorage = "PruebaFetch" 
+            actualizarLocalStorage(nombreVarLocalStorage,obtParaLocalStorage)
+
+        }))
+
+        console.log(pruebadeArreglo)
+
+        // pruebadeArreglo.push({...dataUserNuevo})
+
+        
+
+
+
+        // json.forEach( usuario => {
+        //     const{id, name,username, email } = usuario  
+           
+        //     console.log(username)
+        
+        // }))
+        // pruebadeArreglo.push({...dataUserNuevo})
+
+        
+
+
+        .catch(console.log(json))
+
+
+
+
+
+
+
     function mostrarUsers(){
         limpiarHTML()
         const $divElements = document.querySelector(".listaUsers")
@@ -824,6 +907,35 @@ console.log('no se cargaron eventos del formulario de tareas nuevas' + error)
  
             $divElements.appendChild($div)
         })
+
+        usersFetch.forEach( usuario =>{
+            const {id, apellido, nombre, mail, telefono, username, tipoUser, color } = usuario
+            const $div = document.createElement("div")
+            $div.classList.add("card")
+            $div.draggable = true
+            $div.innerHTML = 
+            `<div>${tipoUser}</div><div><i class="fa-solid fa-fingerprint"></i>${id}</div>
+            <div class="cardUserName" style="background:${color};"><i class="fa-solid fa-person-half-dress"></i>-<strong>${nombre}-${apellido}</strong></div>
+            <div><i class="fa-solid fa-envelope"></i>-${mail}</div>
+            <div><i class="fa-solid fa-user"></i>-${username}</div>
+            <div><i class="fa-solid fa-phone"></i>-${telefono}</div>`
+
+            const btnEditar = document.createElement('button')
+            btnEditar.onclick = () => cargarUser(usuario)
+            btnEditar.textContent = 'Editar'
+            btnEditar.classList.add('btn-editar')
+            $div.append(btnEditar)
+
+            const btnEliminar = document.createElement('button')
+            btnEliminar.onclick = () => eliminarUser(id)
+            btnEliminar.textContent = 'Eliminar'
+            btnEliminar.classList.add('btn-editar')
+            $div.append(btnEliminar)
+ 
+            $divElements.appendChild($div)
+        })
+
+
     }
     
     function cargarUser(usuario){
@@ -911,14 +1023,6 @@ function limpiarHTML() {
 }
             
 
-        // $btnSave.addEventListener("click", (event) =>{
-        //     parameters = parameters.filter(el => el != null)
-        //     const $jsonDiv = document.getElementById("jsonDiv")
-        //     $jsonDiv.innerHTML = `JSON: ${JSON.stringify(parameters)}`
-        //     $divElements.innerHTML = ""
-        //     parameters = []
-        // })
-
 
     }catch (error){
         console.log('no se cargaron eventos del formularios de usuario')
@@ -980,8 +1084,6 @@ const modalPerfil =
 
 //////////// FORMULARIO REGISTRARSE////////
 
-
-
 const modalRegistrarUsuario = ` 
 <div class="modal-dialog">
     <div class="modal-content">
@@ -1026,8 +1128,6 @@ const modalRegistrarUsuario = `
 </div>
 `
 
-
-
 const modalOlvidasteClave = `<div class="modal-dialog">
 <div class="mb-3">
 <h2 class="col-form-label">
@@ -1066,11 +1166,6 @@ const modalQueEs = `
 </div>
 
 `
-// const btnAbrirModalPerfil = document.querySelector("#userSesion")
-// btnAbrirModalPerfil.addEventListener("click",()=>{
-   
-// })
-
 
 function abrilModal(){
     
@@ -1206,135 +1301,127 @@ try{
     console.log("esto se deberia cargr en html tablero / usuarios / configuracion / ayuda")
 }
 
-//////////////// CALENDARIO///////////////////
 
-    try{
-        const date = new Date();
+////////// FETCHH APIS //////
 
-        const renderCalendar = () => {
-        date.setDate(1);
-        
-        const monthDays = document.querySelector(".days");
-        
-        const lastDay = new Date(
-            date.getFullYear(),
-            date.getMonth() + 1,
-            0
-        ).getDate();
-        
-        const prevLastDay = new Date(
-            date.getFullYear(),
-            date.getMonth(),
-            0
-        ).getDate();
-        
-        const firstDayIndex = date.getDay();
-        
-        const lastDayIndex = new Date(
-            date.getFullYear(),
-            date.getMonth() + 1,
-            0
-        ).getDay();
-        
-        const nextDays = 7 - lastDayIndex - 1;
-        
-        const months = [
-            "Enero",
-            "Febrero",
-            "Marzo",
-            "Abril",
-            "Mayo",
-            "Junio",
-            "Julio",
-            "Agosto",
-            "Septiembre",
-            "Octubre",
-            "Noviembre",
-            "Diciembre",
-        ];
-        
-        document.querySelector(".date h1").innerHTML = months[date.getMonth()];
-        
-        document.querySelector(".date p").innerHTML = new Date().toDateString();
-        
-        let days = "";
-        
-        for (let x = firstDayIndex; x > 0; x--) {
-            days += `<div class="prev-date">${prevLastDay - x + 1}</div>`;
-        }
-        
-        for (let i = 1; i <= lastDay; i++) {
-            if (
-            i === new Date().getDate() &&
-            date.getMonth() === new Date().getMonth()
-            ) {
-            days += `<div class="today">${i}</div>`;
-            } else {
-            days += `<div>${i}</div>`;
-            }
-        }
-        
-        for (let j = 1; j <= nextDays; j++) {
-            days += `<div class="next-date">${j}</div>`;
-            monthDays.innerHTML = days;
-        }
-        };
-        
-        document.querySelector(".prev").addEventListener("click", () => {
-        date.setMonth(date.getMonth() - 1);
-        renderCalendar();
-        });
-        
-        document.querySelector(".next").addEventListener("click", () => {
-        date.setMonth(date.getMonth() + 1);
-        renderCalendar();
-        });
-        
-        renderCalendar();
 
-        } catch (error){
-        console.log('No e cargó el calendario')
-    }
+
+
+
+
+
+// const options = {
+// 	method: 'GET',
+// 	headers: {
+// 		'Accept-Encoding': 'application/gzip',
+// 		'X-RapidAPI-Key': '1924364fc7mshbb7c7d33e7996b9p119422jsnecfa05721058',
+// 		'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
+// 	}
+// };
+
+// fetch('https://google-translate1.p.rapidapi.com/language/translate/v2/languages', options)
+// 	.then(response => response.json())
+// 	.then(response => console.log(response))
+// 	.catch(err => console.error(err));
+    
+
+
+
+
+
+///////// FIN FETCH API/////
+
+
+//////////////// CALENDARIO - ESTA SIN USO ///////////////////
+
+    // try{
+    //     const date = new Date();
+
+    //     const renderCalendar = () => {
+    //     date.setDate(1);
+        
+    //     const monthDays = document.querySelector(".days");
+        
+    //     const lastDay = new Date(
+    //         date.getFullYear(),
+    //         date.getMonth() + 1,
+    //         0
+    //     ).getDate();
+        
+    //     const prevLastDay = new Date(
+    //         date.getFullYear(),
+    //         date.getMonth(),
+    //         0
+    //     ).getDate();
+        
+    //     const firstDayIndex = date.getDay();
+        
+    //     const lastDayIndex = new Date(
+    //         date.getFullYear(),
+    //         date.getMonth() + 1,
+    //         0
+    //     ).getDay();
+        
+    //     const nextDays = 7 - lastDayIndex - 1;
+        
+    //     const months = [
+    //         "Enero",
+    //         "Febrero",
+    //         "Marzo",
+    //         "Abril",
+    //         "Mayo",
+    //         "Junio",
+    //         "Julio",
+    //         "Agosto",
+    //         "Septiembre",
+    //         "Octubre",
+    //         "Noviembre",
+    //         "Diciembre",
+    //     ];
+        
+    //     document.querySelector(".date h1").innerHTML = months[date.getMonth()];
+        
+    //     document.querySelector(".date p").innerHTML = new Date().toDateString();
+        
+    //     let days = "";
+        
+    //     for (let x = firstDayIndex; x > 0; x--) {
+    //         days += `<div class="prev-date">${prevLastDay - x + 1}</div>`;
+    //     }
+        
+    //     for (let i = 1; i <= lastDay; i++) {
+    //         if (
+    //         i === new Date().getDate() &&
+    //         date.getMonth() === new Date().getMonth()
+    //         ) {
+    //         days += `<div class="today">${i}</div>`;
+    //         } else {
+    //         days += `<div>${i}</div>`;
+    //         }
+    //     }
+        
+    //     for (let j = 1; j <= nextDays; j++) {
+    //         days += `<div class="next-date">${j}</div>`;
+    //         monthDays.innerHTML = days;
+    //     }
+    //     };
+        
+    //     document.querySelector(".prev").addEventListener("click", () => {
+    //     date.setMonth(date.getMonth() - 1);
+    //     renderCalendar();
+    //     });
+        
+    //     document.querySelector(".next").addEventListener("click", () => {
+    //     date.setMonth(date.getMonth() + 1);
+    //     renderCalendar();
+    //     });
+        
+    //     renderCalendar();
+
+    //     } catch (error){
+    //     console.log('No e cargó el calendario')
+    // }
 /////////// FIN  CALENDARIO///////////////////
 
 /////////////////////////RESTOS DE CODIGO QUE NO SE USA////////////////////////
-
-// try{
-// //boton para llamar al modal
-// const btnAbrirModalGenerico = document.querySelector("#abrir-modal-generico")
-// btnAbrirModalGenerico.addEventListener("click",()=>{
-  
-//     modalGenerico.showModal()
-// })
-// } catch (error){
-//     console.log("este modal es de la pagina de bienvenida")
-// }
-
-
-// este codigo esta bueno pero no me funcióno.         
-// const newLocal = 'tareaNueva';
-// // drag and drop tareas entre columnas
-
-// const tarea = document.getElementById(newLocal);
-
-// const columnaHaciendo = document.getElementById('haciendoColumna');
-
-// columnaHaciendo.addEventListener('drageneter', e => {
-//     console.log('drga enter');
-// });
-// columnaHaciendo.addEventListener('dragleave', e => {
-//     console.log('drag leave');
-// });
-
-// columnaHaciendo.addEventListener('dragover', e => {
-//     e.preventDefault();
-//     console.log('drag over');
-// });
-
-// columnaHaciendo.addEventListener('drop', e => {
-    
-//     columnaHaciendo.parentNode.appendChild(tarea);
-//     console.log('drop');
-// });
- 
 

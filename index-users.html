@@ -29,7 +29,7 @@
                 <li>
                     <a href="index-tableros.html">TABLEROS</a>
                 </li> 
-                <li id="btn-abrir-modal-calendario">CALENDARIO</li>
+                <!-- <li id="btn-abrir-modal-calendario">CALENDARIO</li> -->
                 <li>
                     <a href="index-config.html">CONFIGURACION</a>
                 </li> 
@@ -48,84 +48,49 @@
                 <i class="fas fa-bars fa-2x"></i>
             </div>
         </nav>
-        <dialog class="modal info" id="modal-calendar">
-            <div>
-        <div class="container-calendar">
-            <div class="calendar">
-              <div class="month">
-                <i class="fas fa-angle-left prev"></i>
-                <div class="date">
-                  <h1></h1>
-                  <p></p>
-                </div>
-                <i class="fas fa-angle-right next"></i>
-              </div>
-              <div class="weekdays">
-                <div>Dom</div>
-                <div>Lun</div>
-                <div>Mar</div>
-                <div>Mie</div>
-                <div>Jue</div>
-                <div>Vie</div>
-                <div>Sab</div>
-              </div>
-              <div class="days"></div>
-            </div>
-          </div>
-        </div>
-        </dialog>
+        <!-- aca estaba calendario -->
         <dialog class="modal info" id="modal-generico">
             <div id="modal-generico-contenido">    
             </div>
          </dialog>
              
         <div class="showcase">
-            <div class="left">
-                <div class="board-text">PANEL DE USUARIOS</div>
+            <div class="nombre-Panel">
+                    <div class="board-text">
+                        <h4>PANEL DE USUARIOS</h4>
+                    </div>
+                    <p>
+                        Estás en el panel de usuarios. Acá podés cargar, ver y editar los miembros que participen de los tableros. Para agregar y editar es necesario que completes todos los campos. El color que eligas será para que lo identifiques más facilmente en los tableros.
+                    </p>
+                    <p>
+                        Agregar: <i class="fa-solid fa-plus"></i> Editar: <i class="fa-solid fa-pen-to-square"></i>   Actualizar: <i class="fa-solid fa-pen"></i> Eliminar: <i class="fa-solid fa-xmark"></i> Agregar Usuario: <i class="fa-solid fa-user-plus"></i>
+                    </p>
             </div>
-            <span >
-                Cargá todos los usuarios que quieras. 
-                Tenés que completar todos los campos. 
-                El color que eligas será para que puedas identificar al usuarios mas facilmente en todos los tableros.
-            </span>   
-        <div>
-            <h3>Guía Rápida</h3>
-            <p>Es para Agregar: <i class="fa-solid fa-plus fa-2x"></i> 
-             || Es para Editar: <i class="fa-solid fa-pen-to-square fa-2x"></i> 
-             || Es para Actualizar:   <i class="fa-solid fa-pen fa-2x"></i> 
-             || Es para Eliminar: <i class="fa-solid fa-xmark fa-2x"></i>
-             || Es para Agregar Usuario: <i class="fa-solid fa-user-plus fa-2x"></i>
-         </p>
-         </div>
-            
-            
-
- <!-- <button  type="button" class="button is-danger">aca va un boton que llama al formulario de registro</button> -->
- <form action=""  class="agregarUser-form" id="frmUsers">
-    <label class="label" class ="nuevatarea-titulo" >AGREGAR USUARIO</label>
-    <input type="text" placeholder="Nombre del Usuario" name="formUserNewNombre" autocomplete="off">
-    <input type="text" placeholder="Apellido del Usuario" name="formUserNewApellido" autocomplete="off">
-    <input type="email" placeholder="Email del Usuario" name="formUserNewEmail" autocomplete="off">
-    <input type="text" placeholder="Teléfono del Usuario" name="formUserNewTelefono" autocomplete="off">
-    <input type="color" name="formUserNewColor" value="#77aaff"  autocomplete="off">
-    <select id = "formTipoUsuario" name="formUserNewTipoUsuario" autocomplete="off">
-        <option  value="ADMINISTRADXR">ADMINISTRADXR</option>
-        <option selected value="MIEMBRX">MIEMBRX</option>
-    </select> 
-    
-    <button id="btnAddUser" type="button" class="button is-danger" >
-                <span class="icon">
-                   AGREGAR USUARIO <i class="fas fa-plus"></i>
-                </span>
-              </button>
-                
-</form>
-
-<span class="board-text">
-    Lista de los usuarios que agregaste
-  
-   </span>
-
+            <div class="herramientas">
+                <form action=""  class="agregarUser-form" id="frmUsers">
+                    <div class="form-contenido">
+                    <label class="label" class ="nuevatarea-titulo" >FORMULARIO PARA AGREGAR/EDITAR USUARIO</label>
+                        <input type="text" placeholder="Nombre del Usuario" name="formUserNewNombre" autocomplete="off">
+                        <input type="text" placeholder="Apellido del Usuario" name="formUserNewApellido" autocomplete="off">
+                        <input type="email" placeholder="Email del Usuario" name="formUserNewEmail" autocomplete="off">
+                        <input type="text" placeholder="Teléfono del Usuario" name="formUserNewTelefono" autocomplete="off">
+                        <input type="color" name="formUserNewColor" value="#77aaff"  autocomplete="off">
+                        <select id = "formTipoUsuario" name="formUserNewTipoUsuario" autocomplete="off">
+                            <option  value="ADMINISTRADXR">ADMINISTRADXR</option>
+                            <option selected value="MIEMBRX">MIEMBRX</option>
+                        </select> 
+                        <button id="btnAddUser" type="button" class="button is-danger" >
+                            <i class="fa-solid fa-user-plus fa-2x"></i>
+                        </button> 
+                    </div>
+                    <div class="form-footer"> 
+                    </div>        
+                </form> 
+            </div>
+<h3>
+    LISTA DE USUARIOS
+</h3>
+<hr>
      <div class ='listaUsers' id="listaUsers">
 
         <!-- acá va la lista de usuarios-->
