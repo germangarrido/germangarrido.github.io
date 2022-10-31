@@ -673,8 +673,8 @@ function addTablero(){ //cuando se acciona boton agregar o editar tablero
         // clickTabs()
             console.log(tabIdActivo)
 
-        document.querySelector(tabIdActivo).classList.add('is-active');
-        document.querySelector(contentIdActivo).classList.add('is-active');
+        // document.querySelector(tabIdActivo).classList.add('is-active');
+        // document.querySelector(contentIdActivo).classList.add('is-active');
     
       
         document.querySelector('.form-tableros').classList.toggle('show');
